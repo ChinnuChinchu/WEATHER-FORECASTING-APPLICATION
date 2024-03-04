@@ -20,7 +20,7 @@ from drf_spectacular.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('weatherapp/',include('weatherapp.urls')),
+    path('',include('weatherapp.urls')),
     path('weather/',include('weather.urls')),
     path('weatherapp/schema/',SpectacularAPIView.as_view(),name='schema'),
     path('weatherapp/schema/docs/',SpectacularSwaggerView.as_view(url_name='schema')),

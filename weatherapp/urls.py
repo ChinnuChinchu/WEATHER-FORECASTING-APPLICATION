@@ -11,8 +11,16 @@ urlpatterns = [
     path('users/login/', UserLoginAPIView.as_view(), name='user-login'),
     path('users/<int:pk>/', UserDetailsAPIView.as_view(), name='user-details'),
     
-    path('posts/', PostCreateAPIView.as_view(), name='post-list-create'),
-    path('posts/<int:pk>/', PostCreateAPIView.as_view(), name='post-detail'),
+    path('forgot-password/', ForgotPasswordView.as_view(), name='forgot-password'),
+    path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
+    
+    # path('posts/', PostCreateAPIView.as_view(), name='post-list-create'),
+    # path('posts/<int:pk>/', PostCreateAPIView.as_view(), name='post-detail'),
+    
+    path('posts/', PostListCreateAPIView.as_view(), name='post-list-create'),
+    path('posts/<int:pk>/', PostDetailAPIView.as_view(), name='post-detail'),
+    
+    
     path('posts/search/', PostSearchByLocationAPIView.as_view(), name='post-search-by-location'),
     path('posts/<int:post_id>/like/', PostLikeAPIView.as_view(), name='post-like'),
     path('posts/<int:post_id>/comment/', CommentCreateAPIView.as_view(), name='comment-create'),
@@ -21,6 +29,8 @@ urlpatterns = [
     
     path('emergencies/', EmergencyAPIView.as_view(), name='emergency-list'),
     path('emergencies/<int:pk>/', EmergencyDetailAPIView.as_view(), name='emergency-detail'),
+    
+    path('user-badges/', UserBadgesAPIView.as_view(), name='user-badges'),
 ]
     
 if settings.DEBUG:

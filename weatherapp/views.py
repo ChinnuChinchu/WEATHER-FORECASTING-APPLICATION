@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
 from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.permissions import AllowAny,IsAuthenticated,IsAdminUser
 from rest_framework.views import APIView
 from .models import *
 from rest_framework.authtoken.models import Token
@@ -21,7 +21,7 @@ import string
 
 
 class SuperuserLoginView(APIView):
-    permission_classes = [AllowAny]
+    # permission_classes = [IsAdminUser] 
 
     @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
@@ -58,6 +58,7 @@ class SuperuserLoginView(APIView):
         
 ################### EMERGENCY ####################
 class EmergencyAPIView(APIView):
+    permission_classes = [IsAdminUser]
     def get(self, request):
         emergencies = Emergency.objects.all()
         serializer = EmergencySerializer(emergencies, many=True)
@@ -66,7 +67,7 @@ class EmergencyAPIView(APIView):
     def post(self, request):
         serializer = EmergencySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(admin_user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -221,14 +222,15 @@ class ResetPasswordView(APIView):
         
         
  ########################## Post creation ############################       
-        
-class PostCreateAPIView(APIView):
+
+
+class PostListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         posts = Post.objects.filter(user=request.user)
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = PostSerializer(data=request.data)
@@ -237,6 +239,19 @@ class PostCreateAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class PostDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk, user=request.user,status=True)
+            
+            serializer = PostSerializer(post)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
         try:
@@ -247,7 +262,7 @@ class PostCreateAPIView(APIView):
         serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -260,9 +275,8 @@ class PostCreateAPIView(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    
-    
 ####################### POST LIKE AND COMMENTS #################
+
 class PostLikeAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -372,3 +386,55 @@ class PostSearchByLocationAPIView(APIView):
             return Response(response_data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Location parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+################ Badges ############
+
+
+# class UserBadgesAPIView(APIView):
+#     def get(self, request):
+#         users = User.objects.all()
+#         badges = []
+
+#         for user in users:
+#             post_count = Post.objects.filter(user=user).count()
+#             badge, badge_image = self.assign_badge(post_count)
+#             badges.append({'user': user.username, 'badge': badge, 'badge_image': badge_image})
+
+#         return Response({'badges': badges}, status=status.HTTP_200_OK)
+
+#     def assign_badge(self, post_count):
+#         if post_count >= 10:
+#             return "Gold", "/static/star_gold.jpg"  # URL of Gold badge image
+#         elif post_count >= 5:
+#             return "Silver", "/static/star_silver.jpg"  # URL of Silver badge image
+#         elif post_count >= 1:
+#             return "Bronze", "/static/star_bronze.jpg"  # URL of Bronze badge image
+#         else:
+#             return "No Badge", ""  # No badge image needed for No Badge
+
+class UserBadgesAPIView(APIView):
+    def get(self, request):
+        user_id = request.query_params.get('user_id')
+
+        if not user_id:
+            return Response({'error': 'User ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(id=user_id)
+            post_count = Post.objects.filter(user=user).count()
+            badge, badge_image = self.assign_badge(post_count)
+            response_data = {'user': user.username, 'badge': badge, 'badge_image': badge_image}
+            return Response(response_data, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    def assign_badge(self, post_count):
+        if post_count >= 10:
+            return "Gold", "/static/star_gold.jpg"  # URL of Gold badge image
+        elif post_count >= 5:
+            return "Silver", "/static/star_silver.jpg"  # URL of Silver badge image
+        elif post_count >= 1:
+            return "Bronze", "/static/star_bronze.jpg"  # URL of Bronze badge image
+        else:
+            return "No Badge", ""  # No badge image needed for No Badge

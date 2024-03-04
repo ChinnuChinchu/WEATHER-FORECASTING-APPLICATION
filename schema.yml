@@ -3,6 +3,398 @@ info:
   title: Django DRF WeatherForecasting
   version: 0.0.0
 paths:
+  /emergencies/:
+    get:
+      operationId: emergencies_retrieve
+      tags:
+      - emergencies
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: emergencies_create
+      tags:
+      - emergencies
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /emergencies/{id}/:
+    get:
+      operationId: emergencies_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - emergencies
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: emergencies_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - emergencies
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: emergencies_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - emergencies
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /forgot-password/:
+    post:
+      operationId: forgot_password_create
+      tags:
+      - forgot-password
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /posts/:
+    get:
+      operationId: posts_retrieve
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: posts_create
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /posts/{id}/:
+    get:
+      operationId: posts_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: posts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: posts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /posts/{post_id}/comment/:
+    get:
+      operationId: posts_comment_retrieve
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: posts_comment_create
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: posts_comment_update
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: posts_comment_destroy
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /posts/{post_id}/like/:
+    post:
+      operationId: posts_like_create
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /posts/search/:
+    get:
+      operationId: posts_search_retrieve
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /reset-password/:
+    post:
+      operationId: reset_password_create
+      tags:
+      - reset-password
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /superuser-login/:
+    post:
+      operationId: superuser_login_create
+      tags:
+      - superuser-login
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /user-badges/:
+    get:
+      operationId: user_badges_retrieve
+      tags:
+      - user-badges
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/{id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/login/:
+    post:
+      operationId: users_login_create
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /users/register/:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /weather/accuweather-5day-forecast/:
+    get:
+      operationId: weather_accuweather_5day_forecast_retrieve
+      tags:
+      - weather
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /weather/accuweather-hourly-forecast/:
+    get:
+      operationId: weather_accuweather_hourly_forecast_retrieve
+      tags:
+      - weather
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /weather/accuweather-one-day-forecast/:
+    get:
+      operationId: weather_accuweather_one_day_forecast_retrieve
+      tags:
+      - weather
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /weather/accuweather-one-hourly-forecast/:
+    get:
+      operationId: weather_accuweather_one_hourly_forecast_retrieve
+      tags:
+      - weather
+      security:
+      - jwtAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
   /weather/weather/{cityname}/:
     get:
       operationId: weather_weather_retrieve
@@ -16,192 +408,7 @@ paths:
       - weather
       security:
       - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /weatherapp/posts/:
-    get:
-      operationId: weatherapp_posts_retrieve
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    post:
-      operationId: weatherapp_posts_create
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    put:
-      operationId: weatherapp_posts_update
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    delete:
-      operationId: weatherapp_posts_destroy
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
-  /weatherapp/posts/{id}/:
-    get:
-      operationId: weatherapp_posts_retrieve_2
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    post:
-      operationId: weatherapp_posts_create_2
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    put:
-      operationId: weatherapp_posts_update_2
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    delete:
-      operationId: weatherapp_posts_destroy_2
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
-  /weatherapp/posts/{post_id}/comment/:
-    get:
-      operationId: weatherapp_posts_comment_retrieve
-      parameters:
-      - in: path
-        name: post_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    post:
-      operationId: weatherapp_posts_comment_create
-      parameters:
-      - in: path
-        name: post_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    put:
-      operationId: weatherapp_posts_comment_update
-      parameters:
-      - in: path
-        name: post_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-    delete:
-      operationId: weatherapp_posts_comment_destroy
-      parameters:
-      - in: path
-        name: post_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
-  /weatherapp/posts/{post_id}/like/:
-    post:
-      operationId: weatherapp_posts_like_create
-      parameters:
-      - in: path
-        name: post_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-  /weatherapp/posts/search/:
-    get:
-      operationId: weatherapp_posts_search_retrieve
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
+      - tokenAuth: []
       - {}
       responses:
         '200':
@@ -330,6 +537,7 @@ paths:
       - weatherapp
       security:
       - jwtAuth: []
+      - tokenAuth: []
       - {}
       responses:
         '200':
@@ -351,75 +559,14 @@ paths:
                 type: object
                 additionalProperties: {}
           description: ''
-  /weatherapp/superuser-login/:
-    post:
-      operationId: weatherapp_superuser_login_create
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /weatherapp/users/{id}/:
-    get:
-      operationId: weatherapp_users_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          description: No response body
-    put:
-      operationId: weatherapp_users_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /weatherapp/users/login/:
-    post:
-      operationId: weatherapp_users_login_create
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          description: No response body
-  /weatherapp/users/register/:
-    post:
-      operationId: weatherapp_users_register_create
-      tags:
-      - weatherapp
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          description: No response body
 components:
   securitySchemes:
     jwtAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
