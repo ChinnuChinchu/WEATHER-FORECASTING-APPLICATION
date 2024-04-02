@@ -72,6 +72,7 @@ class EmergencyAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class EmergencyDetailAPIView(APIView):
+    permission_classes = [IsAdminUser]
     def get_object(self, pk):
         try:
             return Emergency.objects.get(pk=pk)
@@ -96,7 +97,15 @@ class EmergencyDetailAPIView(APIView):
         emergency.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+######################## EMERGENCY GET ALL ####################
 
+class EmergencyDetailAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        emergencies = Emergency.objects.all()
+        serializer = EmergencySerializer(emergencies, many=True)
+        return Response(serializer.data)
 
 ################### USER ####################
 
@@ -121,17 +130,23 @@ class UserDetailsAPIView(APIView):
     
     def get(self, request, pk):
         user = self.get_object(pk)
-        serializer = UserSerializer(user)
+        serializer = UserEditSerializer(user)
         return Response(serializer.data)
     
     def put(self, request, pk):
         user = self.get_object(pk)
-        serializer = UserSerializer(user, data=request.data)
+        serializer = UserEditSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'User details updated successfully'})
         else:
             return Response(serializer.errors, status=400)
+        
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+        user.delete()
+        return Response({'message': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
         
         
 class UserLoginAPIView(APIView):
@@ -275,6 +290,24 @@ class PostDetailAPIView(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    
+######################## GET ALL THE USERS POSTS ####################
+
+
+class UserPostListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Retrieve all posts for all users
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+        data=serializer.data
+        
+        for i,post_data in enumerate(data):
+            username=posts[i].user.username
+            data[i]['username']=username
+        return Response(data, status=status.HTTP_200_OK)
+    
 ####################### POST LIKE AND COMMENTS #################
 
 class PostLikeAPIView(APIView):
@@ -329,6 +362,14 @@ class CommentCreateAPIView(APIView):
         comments = post.comments.all()
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+    
+    def get(self,request,post_id,comment_id):
+        try:
+            comment=Comment.objects.get(id=comment_id,post_id=post_id)
+        except Comment.DoestNotExist:
+            return Response({'error':'Comment not found'},status=status.HTTP_404_NOT_FOUND)
+        serializer=CommentSerializer(comment)
+        return Response(serializer.data)
 
     def post(self, request, post_id):
         try:
@@ -370,6 +411,20 @@ class CommentCreateAPIView(APIView):
 
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+##################### COMMENT ALL #########################
+
+class PostCommentsAPIView(APIView):
+    def get(self, request, post_id):
+        try:
+            post = Post.objects.get(pk=post_id)
+            comments = post.comments.all()  # Get all comments related to the post
+            serializer = CommentSerializer(comments, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
     
 ######################### Post search ###############
 class PostSearchByLocationAPIView(APIView):
@@ -415,7 +470,7 @@ class PostSearchByLocationAPIView(APIView):
 
 class UserBadgesAPIView(APIView):
     def get(self, request):
-        user_id = request.query_params.get('user_id')
+        user_id = request.data.get('user_id')
 
         if not user_id:
             return Response({'error': 'User ID is required'}, status=status.HTTP_400_BAD_REQUEST)

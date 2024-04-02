@@ -67,7 +67,7 @@ class AccuWeatherOneDayForecast(APIView):
     def get(self, request):
         try:
             # Replace 'YOUR_API_KEY' with your actual AccuWeather API key
-            api_key = 'ohSbAS4JFKevRVSChzfyBzjYCcht9IUE'
+            api_key = '11Q2ffInM19875O2HQkqC9hkIdsYgTws'
             location_key = '2196366'  # Replace with your location key
 
             # Construct the URL
@@ -96,7 +96,7 @@ class AccuWeather5DayForecast(APIView):
     def get(self, request):
         try:
             # Replace 'YOUR_API_KEY' with your actual AccuWeather API key
-            api_key = 'ohSbAS4JFKevRVSChzfyBzjYCcht9IUE'
+            api_key = '11Q2ffInM19875O2HQkqC9hkIdsYgTws'
             location_key = '2196366'  # Replace with your location key
 
             # Construct the URL
@@ -137,7 +137,7 @@ class AccuWeatherHourlyForecast(APIView):
     def get(self, request):
         try:
             # Replace 'YOUR_API_KEY' with your actual AccuWeather API key
-            api_key = 'ohSbAS4JFKevRVSChzfyBzjYCcht9IUE'
+            api_key = '11Q2ffInM19875O2HQkqC9hkIdsYgTws'
             location_key = '2196366'  # Replace with your location key
 
             # Construct the URL
@@ -169,7 +169,7 @@ class AccuWeatherOneHourlyForecast(APIView):
     def get(self, request):
         try:
             # Replace 'YOUR_API_KEY' with your actual AccuWeather API key
-            api_key = 'ohSbAS4JFKevRVSChzfyBzjYCcht9IUE'
+            api_key = '11Q2ffInM19875O2HQkqC9hkIdsYgTws'
             location_key = '2196366'  # Replace with your location key
 
             # Construct the URL

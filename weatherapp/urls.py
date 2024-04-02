@@ -20,15 +20,23 @@ urlpatterns = [
     path('posts/', PostListCreateAPIView.as_view(), name='post-list-create'),
     path('posts/<int:pk>/', PostDetailAPIView.as_view(), name='post-detail'),
     
+    path('all-posts/', UserPostListAPIView.as_view(), name='user-post-list'),
+    
     
     path('posts/search/', PostSearchByLocationAPIView.as_view(), name='post-search-by-location'),
     path('posts/<int:post_id>/like/', PostLikeAPIView.as_view(), name='post-like'),
+    
     path('posts/<int:post_id>/comment/', CommentCreateAPIView.as_view(), name='comment-create'),
+    path('posts/<int:post_id>/comment/<int:comment_id>/', CommentCreateAPIView.as_view(), name='comment-detail'),
+    
+    path('posts/<int:post_id>/comments/', PostCommentsAPIView.as_view(), name='post_comments'),
     
     path('superuser-login/', SuperuserLoginView.as_view(), name='superuser-login'),
     
     path('emergencies/', EmergencyAPIView.as_view(), name='emergency-list'),
     path('emergencies/<int:pk>/', EmergencyDetailAPIView.as_view(), name='emergency-detail'),
+    
+    path('get-emergencies-all/', EmergencyDetailAPIView.as_view(), name='emergency-list'),
     
     path('user-badges/', UserBadgesAPIView.as_view(), name='user-badges'),
 ]
