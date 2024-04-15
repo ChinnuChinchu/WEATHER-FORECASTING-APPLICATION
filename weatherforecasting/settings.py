@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'drf_spectacular',
+    'weather'
 ]
 
 MIDDLEWARE = [
@@ -145,7 +146,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'chinchuofficialweb@gmail.com' 
-EMAIL_HOST_PASSWORD = 'mcnu hqcn wgze cocu'
+EMAIL_HOST_PASSWORD = 'zlhb bipy gixf ogbu'
 
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')

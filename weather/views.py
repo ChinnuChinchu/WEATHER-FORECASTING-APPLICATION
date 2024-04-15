@@ -10,6 +10,8 @@ import requests
 from django.http import JsonResponse
 from rest_framework import status
 
+from datetime import datetime
+
 class WeatherAPIView(APIView):
     def get(self, request, cityname):
         api_key = '8034387bb4a3826ba62baa311ea48856'
@@ -192,3 +194,41 @@ class AccuWeatherOneHourlyForecast(APIView):
             # If any exception occurs during the request, return an error message
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+################################ 5dayweatherdata to save historical weather data #############################3
+        
+class AccuWeatherDayForecastHistorical(APIView):
+    def get(self, request):
+        try:
+            # Your existing code to fetch forecast data
+            api_key = '11Q2ffInM19875O2HQkqC9hkIdsYgTws'
+            location_key = '2196366'
+            url = f'http://dataservice.accuweather.com/forecasts/v1/daily/5day/{location_key}?apikey={api_key}'
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                data = response.json()
+                daily_forecasts = data.get('DailyForecasts', [])
+
+                # Save forecast data into the database
+                for forecast in daily_forecasts:
+                    date_str = forecast.get('Date')
+                    date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S%z').strftime('%Y-%m-%d')
+
+                    temperature_min = forecast.get('Temperature').get('Minimum').get('Value')
+                    temperature_max = forecast.get('Temperature').get('Maximum').get('Value')
+                    
+                    # Check if precipitation data is available
+                    precipitation_data = forecast.get('Day', {}).get('PrecipitationProbability')
+                    # Set default value if precipitation data is not available
+                    precipitation = precipitation_data if precipitation_data is not None else 0
+
+                    WeatherForecast.objects.create(date=date, temperature_min=temperature_min, temperature_max=temperature_max, precipitation=precipitation)
+
+                # Serialize the saved data
+                forecasts = WeatherForecast.objects.all()
+                serializer = WeatherForecastSerializer(forecasts, many=True)
+                return Response(serializer.data)
+            else:
+                return Response({'error': 'Failed to fetch forecast data'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

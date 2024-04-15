@@ -9,4 +9,7 @@ urlpatterns = [
     path('accuweather-hourly-forecast/', AccuWeatherHourlyForecast.as_view(), name='accuweather_hourly_forecast'),
     path('accuweather-one-hourly-forecast/', AccuWeatherOneHourlyForecast.as_view(), name='accuweather_one_hourly_forecast'),
     
+    path('forecast/', AccuWeatherDayForecastHistorical.as_view(), name='forecast'),
+    
+    
 ]

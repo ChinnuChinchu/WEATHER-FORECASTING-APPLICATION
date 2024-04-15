@@ -8,3 +8,10 @@ class WeatherSerializer(serializers.Serializer):
     temperature = serializers.FloatField()
     humidity = serializers.IntegerField()
     description = serializers.CharField()
+    
+
+
+class WeatherForecastSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherForecast
+        fields = '__all__'
