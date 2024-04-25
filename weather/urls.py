@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('weather/<str:cityname>/', WeatherAPIView.as_view(), name='weather_api'),
+    
     path('accuweather-one-day-forecast/', AccuWeatherOneDayForecast.as_view(), name='accuweather_one_day_forecast'),
     path('accuweather-5day-forecast/', AccuWeather5DayForecast.as_view(), name='accuweather_5day_forecast'),
     
@@ -10,6 +11,8 @@ urlpatterns = [
     path('accuweather-one-hourly-forecast/', AccuWeatherOneHourlyForecast.as_view(), name='accuweather_one_hourly_forecast'),
     
     path('forecast/', AccuWeatherDayForecastHistorical.as_view(), name='forecast'),
+    
+    path('weatherhistorical/<str:cityname>/', WeatherNotificationAPIView.as_view(), name='weather_api'),
     
     
 ]
